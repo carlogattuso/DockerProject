@@ -1,9 +1,13 @@
 "use strict";
-exports.__esModule = true;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
-var users_1 = require("./routes/users");
+var cors = require("cors");
+var users_1 = __importDefault(require("./routes/users"));
 var Server = /** @class */ (function () {
     function Server() {
         this.app = express();
@@ -19,7 +23,8 @@ var Server = /** @class */ (function () {
             reconnectInterval: 500
         }).then(function () {
             console.log('Connected successfully to DB');
-        })["catch"](function (error) {
+        })
+            .catch(function (error) {
             console.error('Connection to DB Failed');
             console.error(error.message);
             process.exit(-1);
@@ -29,12 +34,14 @@ var Server = /** @class */ (function () {
     Server.prototype.routes = function () {
         var router;
         router = express.Router();
+        this.app.use(cors());
+        this.app.options('*', cors());
         this.app.get('/', function (req, res) {
             res.send("App Working");
         });
         this.app.use('/', router);
-        this.app.use('/users', users_1["default"]);
+        this.app.use('/users', users_1.default);
     };
     return Server;
 }());
-exports["default"] = new Server().app;
+exports.default = new Server().app;

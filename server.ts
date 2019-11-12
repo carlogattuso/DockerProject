@@ -1,6 +1,7 @@
 import express = require('express');
 import mongoose = require('mongoose');
 import bodyParser = require('body-parser');
+import cors = require('cors');
 
 import UserRouter from './routes/users';
 
@@ -33,6 +34,8 @@ class Server {
 
         let router: express.Router;
         router = express.Router();
+        this.app.use(cors());
+        this.app.options('*', cors());
         this.app.get('/', (req,res) => {
             res.send("App Working");
         });

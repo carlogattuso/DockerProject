@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 require('../models/user');
 var mongoose = require('mongoose');
@@ -14,7 +14,7 @@ var UserRouter = /** @class */ (function () {
         this.router.get('/:id', this.GetUserById);
         this.router.post('/', this.CreateUser);
         this.router.put('/:id', this.UpdateUser);
-        this.router["delete"]('/:id', this.DeleteUser);
+        this.router.delete('/:id', this.DeleteUser);
     };
     UserRouter.prototype.GetUsers = function (req, res) {
         User.find({}).then(function (data) {
@@ -22,7 +22,7 @@ var UserRouter = /** @class */ (function () {
             if (data == null)
                 status = 404;
             res.status(200).json(data);
-        })["catch"](function (err) {
+        }).catch(function (err) {
             res.status(500).json(err);
         });
     };
@@ -31,7 +31,8 @@ var UserRouter = /** @class */ (function () {
         User.findOne({ "_id": id })
             .then(function (data) {
             res.status(200).json(data);
-        })["catch"](function (err) {
+        })
+            .catch(function (err) {
             res.status(500).json(err);
         });
     };
@@ -43,7 +44,8 @@ var UserRouter = /** @class */ (function () {
         user.save()
             .then(function (data) {
             res.status(201).json(data);
-        })["catch"](function (err) {
+        })
+            .catch(function (err) {
             res.status(500).json(err);
         });
     };
@@ -55,7 +57,8 @@ var UserRouter = /** @class */ (function () {
         User.update({ "_id": id }, { $set: { "email": email, "name": name, "pass": pass } })
             .then(function (data) {
             res.status(201).json(data);
-        })["catch"](function (err) {
+        })
+            .catch(function (err) {
             res.status(500).json(err);
         });
     };
@@ -64,7 +67,8 @@ var UserRouter = /** @class */ (function () {
         User.deleteOne({ "_id": id })
             .then(function (data) {
             res.status(200).json(data);
-        })["catch"](function (err) {
+        })
+            .catch(function (err) {
             res.status(500).json(err);
         });
     };
@@ -72,4 +76,4 @@ var UserRouter = /** @class */ (function () {
 }());
 var userRoutes = new UserRouter();
 userRoutes.routes();
-exports["default"] = userRoutes.router;
+exports.default = userRoutes.router;
